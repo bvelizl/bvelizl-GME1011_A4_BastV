@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 
 namespace GME1011A4
-/* This is my last assignment for this course.
+/* This is my last assignment for this course. For this, I will reuse A5 from GME1003.
+ * 
  * The main idea of this game is to collect 5 boxes
- * while dodging the metal boxes.
- * Bastian Veliz_GME-1003.
+ * while dodging the metal boxes. You just have 3 lives, so be careful.
+ * GME1011_A4_BastV
  */
 {
     public class Game1 : Game
