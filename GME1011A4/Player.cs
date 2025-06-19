@@ -20,7 +20,7 @@ namespace GME1011A4
         public int _Lives, _Score;
         public Color _Color;
         private Texture2D _Idle, _Left, _Right;
-        public bool _isdead;
+        public bool _playerDead, _playerWin;
 
         //Constructor of the player.
 
@@ -31,7 +31,8 @@ namespace GME1011A4
             _Lives = 3;
             _Score = 0;
             _Color = Color.White;
-            _isdead = false;
+            _playerDead = false;
+            _playerWin = false;
         }
 
         //Load content. The idea is to make the player class responsible to modify
@@ -53,6 +54,16 @@ namespace GME1011A4
                 _position.X -= _speed * deltaTime;
             if (keyboardState.IsKeyDown(Keys.D))
                 _position.X += _speed * deltaTime;
+
+            //Check if the player is dead, or if the player wins.
+            if (_Lives == 0)
+                _playerDead = true;
+
+            if (_Score == 3)
+                _playerWin = true;
+
+            //Creating hitbox for the player.
+            Rectangle playerHitbox = new Rectangle((int)_position.X, (int)_position.Y, _Idle.Width, _Idle.Height);
         }
 
         //Draw. Here the sprite will change according to the player's direction.
