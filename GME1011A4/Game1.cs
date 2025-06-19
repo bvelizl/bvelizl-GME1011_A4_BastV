@@ -21,7 +21,7 @@ namespace GME1011A4
         private SpriteFont _font;
         private float _glitterRotation;
         private Random _RNG;
-        private int _numGlitter, _numBox;
+        private int _numGlitter, _numBox, _boxRNG;
         private List<int> _glitterX;
         private List<int> _glitterY;
 
@@ -59,6 +59,19 @@ namespace GME1011A4
                 _glitterY.Add(_RNG.Next(0, 600));
             }
 
+            //List of boxes.
+            _numBox = _RNG.Next(3,6);
+
+            for (int b = 0; b < _numBox; b++)
+            {
+                _boxRNG = _RNG.Next(0, 3);
+
+                if (_boxRNG == 2)
+                    _boxes.Add(new woodenBox(Content.Load<Texture2D>("Box"), new Vector2(_RNG.Next(0, 981), -100)));
+                else
+                    _boxes.Add(new metalBox(Content.Load<Texture2D>("Death_Box"), new Vector2(_RNG.Next(0, 981), -100)));
+            }
+
 
             base.Initialize();
         }
@@ -76,6 +89,9 @@ namespace GME1011A4
             _glitter = Content.Load<Texture2D>("Glitter");
             _font = Content.Load<SpriteFont>("Font");
 
+            //Loading my player with its three sprites.
+            _player = new Player();
+            _player.LoadContent(Content);
 
         }
 
@@ -86,7 +102,24 @@ namespace GME1011A4
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
+            //Rotation for glitter.
             _glitterRotation += 0.009f;
+
+            //creating my keyboard state for update ONLY if you are alive and not winning yet.
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (_player._playerWin == false && _player._playerDead == false)
+            {
+                _player.Update(gameTime, keyboardState);
+
+                foreach (Box box in _boxes)
+                    box.Update(gameTime);
+                //NEEDS TO BE FIXED TOMORROW.
+                //if (box.boxHitbox.Intersects(_player.playerHitbox))
+                    //box.Collides(_player);
+            }
+            
+
 
 
             base.Update(gameTime);
