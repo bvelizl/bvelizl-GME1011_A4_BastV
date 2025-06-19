@@ -20,7 +20,7 @@ namespace GME1011A4
 
         //Constructors of the box.
 
-        public Box(Texture2D texture, Vector2 position, float speed)
+        public Box(Texture2D texture, Vector2 position)
         {
             _texture = texture;
             _position = position;
@@ -31,6 +31,12 @@ namespace GME1011A4
         public void Respawn()
         {
             _position.Y = -100;
+        }
+
+        //Mutator for collision with the player. Modified later depending on each type of box.
+        public void Collides()
+        {
+
         }
 
         //Update. Making the box fall using delta time.
