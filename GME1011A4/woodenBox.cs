@@ -19,9 +19,9 @@ namespace GME1011A4
         }
 
         //Mutator to add score to the player if collide with it.
-        public void Collides()
+        public void Collides(Player player)
         {
-            player.Score++;
+            player._Score++;
             base.Respawn();
         }
     }
