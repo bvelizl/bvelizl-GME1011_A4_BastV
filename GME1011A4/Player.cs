@@ -20,6 +20,7 @@ namespace GME1011A4
         public int _Lives, _Score;
         public Color _Color;
         private Texture2D _Idle, _Left, _Right;
+        public bool _isdead;
 
         //Constructor of the player.
 
@@ -30,6 +31,7 @@ namespace GME1011A4
             _Lives = 3;
             _Score = 0;
             _Color = Color.White;
+            _isdead = false;
         }
 
         //Load content. The idea is to make the player class responsible to modify
