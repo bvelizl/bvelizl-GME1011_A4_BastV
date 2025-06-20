@@ -9,6 +9,9 @@ namespace GME1011A4
  * 
  * The main idea of this game is to collect 5 boxes
  * while dodging the metal boxes. You just have 3 lives, so be careful.
+ * 
+ * Move to left using "A", or right using "D".
+ * 
  * GME1011_A4_BastV
  */
 {
