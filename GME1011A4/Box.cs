@@ -34,7 +34,7 @@ namespace GME1011A4
         }
 
         //Mutator for collision with the player. Modified later depending on each type of box.
-        public void Collides()
+        public void Collides(Player player)
         {
 
         }
@@ -53,6 +53,12 @@ namespace GME1011A4
 
             //Creating hitbox for the box.
             Rectangle boxHitbox = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+        }
+
+        //Creating accessor to get the box hitbox. Copy and paste the hitbox from above.
+        public Rectangle GetHitbox()
+        {
+            return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
         }
 
         //Draw event of the box.

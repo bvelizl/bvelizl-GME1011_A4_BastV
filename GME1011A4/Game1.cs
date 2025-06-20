@@ -51,6 +51,7 @@ namespace GME1011A4
             _glitterRotation = _RNG.Next(0, 100) / 50f;
             _glitterX = new List<int>();
             _glitterY = new List<int>();
+            
 
             //List of both coordinates.
             for (int i = 0; i < _numGlitter; i++)
@@ -60,6 +61,7 @@ namespace GME1011A4
             }
 
             //List of boxes.
+            _boxes = new List<Box>();
             _numBox = _RNG.Next(3,6);
 
             for (int b = 0; b < _numBox; b++)
@@ -108,20 +110,20 @@ namespace GME1011A4
             //creating my keyboard state for update ONLY if you are alive and not winning yet.
             KeyboardState keyboardState = Keyboard.GetState();
 
+            //Check for hitbox only if you are still alive and playing.
             if (_player._playerWin == false && _player._playerDead == false)
             {
                 _player.Update(gameTime, keyboardState);
 
                 foreach (Box box in _boxes)
+                {
                     box.Update(gameTime);
-                //NEEDS TO BE FIXED TOMORROW.
-                //if (box.boxHitbox.Intersects(_player.playerHitbox))
-                    //box.Collides(_player);
+
+                    if (box.GetHitbox().Intersects(_player.GetHitbox()))
+                        box.Collides(_player);
+                }
+                
             }
-            
-
-
-
             base.Update(gameTime);
         }
 
@@ -133,11 +135,11 @@ namespace GME1011A4
             _spriteBatch.Begin();
 
             //If statement that only runs if the player is not dead, and it has not won yet.
-            //Draws the background, player(idle), boxes, Lives and Score.
-            //2 if statements that change the sprite of the player, dependind on the Key that the user inputs.
+            //Draws the background, player(idle), boxes, glitter, Lives and Score.
             if(!_player._playerDead && !_player._playerWin)
             {
                 _spriteBatch.Draw(_background, new Vector2(0, 0), Color.White);
+                _player.Draw(_spriteBatch, Keyboard.GetState());
                 _spriteBatch.DrawString(_font, "Lives: " + _player._Lives, new Vector2(80, 50), Color.White);
                 _spriteBatch.DrawString(_font, "Score: " + _player._Score, new Vector2(900, 50), Color.White);
 
@@ -145,6 +147,11 @@ namespace GME1011A4
                 {
                     _spriteBatch.Draw(_glitter, new Vector2(_glitterX[i], _glitterY[i]), null, Color.White, _glitterRotation, 
                         new Vector2(_glitter.Width / 2, _glitter.Height / 2), new Vector2(1, 1), SpriteEffects.None, 0f);
+                }
+
+                foreach (Box box in _boxes)
+                {
+                    box.Draw(_spriteBatch);
                 }
 
             }

@@ -26,7 +26,7 @@ namespace GME1011A4
 
         public Player()
         {
-            _position = new Vector2(540, 1080);
+            _position = new Vector2(540, 950);
             _speed = 600f;
             _Lives = 3;
             _Score = 0;
@@ -50,20 +50,27 @@ namespace GME1011A4
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (keyboardState.IsKeyDown(Keys.A))
+            //Player's speed encapsulated to prevent going outside the screen.
+            if (keyboardState.IsKeyDown(Keys.A) && _position.X > 0)
                 _position.X -= _speed * deltaTime;
-            if (keyboardState.IsKeyDown(Keys.D))
+            if (keyboardState.IsKeyDown(Keys.D) && _position.X < 980)
                 _position.X += _speed * deltaTime;
 
             //Check if the player is dead, or if the player wins.
             if (_Lives == 0)
                 _playerDead = true;
 
-            if (_Score == 3)
+            if (_Score == 5)
                 _playerWin = true;
 
             //Creating hitbox for the player.
             Rectangle playerHitbox = new Rectangle((int)_position.X, (int)_position.Y, _Idle.Width, _Idle.Height);
+        }
+
+        //Creating accessor to get the player hitbox. Copy and paste the hitbox from above.
+        public Rectangle GetHitbox()
+        {
+            return new Rectangle((int)_position.X, (int)_position.Y, _Idle.Width, _Idle.Height);
         }
 
         //Draw. Here the sprite will change according to the player's direction.
