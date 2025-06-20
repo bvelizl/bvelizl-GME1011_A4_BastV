@@ -14,10 +14,10 @@ namespace GME1011A4
 {
     public class Game1 : Game
     {
-        //Declaring all my variables, including the ones for every sprite of my character & "enemy".
+        //Declaring my variables.
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _Idle, _Left, _Right, _plW, _plL, _background, _glitter;
+        private Texture2D _plW, _plL, _background, _glitter;
         private SpriteFont _font;
         private float _glitterRotation;
         private Random _RNG;
@@ -53,7 +53,7 @@ namespace GME1011A4
             _glitterY = new List<int>();
             
 
-            //List of both coordinates.
+            //List for both coordinates of glitter.
             for (int i = 0; i < _numGlitter; i++)
             {
                 _glitterX.Add(_RNG.Next(0, 1030));
@@ -83,11 +83,8 @@ namespace GME1011A4
 
         protected override void LoadContent()
         {
-            //Loading the sprites for character, boxes, background, and font.
+            //Loading the sprites for background, win or lose, glitter, and font.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _Idle = Content.Load<Texture2D>("Player_Idle");
-            _Left = Content.Load<Texture2D>("Player_Left");
-            _Right = Content.Load<Texture2D>("Player_Right");
             _plW = Content.Load<Texture2D>("Player_Win");
             _plL = Content.Load<Texture2D>("Player_Lose");
             _background = Content.Load<Texture2D>("Background");
@@ -110,7 +107,7 @@ namespace GME1011A4
             //Rotation for glitter.
             _glitterRotation += 0.009f;
 
-            //creating my keyboard state for update ONLY if you are alive and not winning yet.
+            //creating my keyboard state for update ONLY if you are alive and not winning yet. Required for updating my player.
             KeyboardState keyboardState = Keyboard.GetState();
 
             //Check for hitbox only if you are still alive and playing.
@@ -125,17 +122,32 @@ namespace GME1011A4
                     if (box.GetHitbox().Intersects(_player.GetHitbox()))
                         box.Collides(_player);
                 }
-                //Counter to change the amount of boxes on the list. FIXABLE
+                //Code to remove broken boxes.
+                for (int i = 0; i < _boxes.Count; i++)
+                {
+                    if (_boxes[i].GetBroken())
+                    {
+                        _boxes.RemoveAt(i);
+                    }
+                }
+                
+                //Counter to change the amount of boxes on the list.
                 _counter++;
                 if (_counter == 180)
                 {
                     _numBox = _RNG.Next(3, 6);
                     _boxRNG = _RNG.Next(0, 3);
 
-                    if (_boxRNG == 2)
-                        _boxes.Add(new woodenBox(Content.Load<Texture2D>("Box"), new Vector2(_RNG.Next(0, 981), -100)));
-                    else
-                        _boxes.Add(new metalBox(Content.Load<Texture2D>("Death_Box"), new Vector2(_RNG.Next(0, 981), -100)));
+                    //List added again to modify the amount and type of boxes falling later.
+                    for (int b = 0; b < _numBox; b++)
+                    {
+                        _boxRNG = _RNG.Next(0, 3);
+
+                        if (_boxRNG == 2)
+                            _boxes.Add(new woodenBox(Content.Load<Texture2D>("Box"), new Vector2(_RNG.Next(0, 981), -100)));
+                        else
+                            _boxes.Add(new metalBox(Content.Load<Texture2D>("Death_Box"), new Vector2(_RNG.Next(0, 981), -100)));
+                    }
 
                     _counter = 0;
                 }
@@ -152,7 +164,7 @@ namespace GME1011A4
             _spriteBatch.Begin();
 
             //If statement that only runs if the player is not dead, and it has not won yet.
-            //Draws the background, player(idle), boxes, glitter, Lives and Score.
+            //Draws the background, player, boxes, glitter, Lives and Score.
             if(!_player._playerDead && !_player._playerWin)
             {
                 _spriteBatch.Draw(_background, new Vector2(0, 0), Color.White);

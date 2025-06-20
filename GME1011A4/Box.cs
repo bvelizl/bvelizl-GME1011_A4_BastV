@@ -29,10 +29,10 @@ namespace GME1011A4
             _isBroken = false;
         }
 
-        //Mutator to respawn the box.
-        public void Respawn()
+        //Mutator to destroy the box.
+        public void IsBroken()
         {
-            _position.Y = -100;
+            _isBroken = true;
         }
 
         //Mutator for collision with the player. Modified later depending on each type of box.
@@ -50,8 +50,7 @@ namespace GME1011A4
             _position.Y += _speed * deltaTime;
             if ( _position.Y > 1100)
             {
-                this.Respawn();
-                _isBroken |= true;
+                this.IsBroken();
             }
 
             //Creating hitbox for the box.
@@ -62,6 +61,12 @@ namespace GME1011A4
         public Rectangle GetHitbox()
         {
             return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+        }
+
+        //Creating accessor to check if boxes are broken.
+        public bool GetBroken()
+        {
+            return _isBroken;
         }
 
         //Draw event of the box.

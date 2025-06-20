@@ -29,7 +29,7 @@ namespace GME1011A4
         {
             player._Lives--;
             player._Color = new Color(128 + rng.Next(128), 128 + rng.Next(128), 128 + rng.Next(128));
-            base.Respawn();
+            base.IsBroken();
         }
     }
 }

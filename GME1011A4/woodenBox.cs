@@ -25,7 +25,7 @@ namespace GME1011A4
         public override void Collides(Player player)
         {
             player._Score++;
-            base.Respawn();
+            base.IsBroken();
         }
     }
 }
