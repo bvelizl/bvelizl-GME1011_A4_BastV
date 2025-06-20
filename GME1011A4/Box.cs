@@ -17,6 +17,7 @@ namespace GME1011A4
         private Texture2D _texture;
         private Vector2 _position;
         private float _speed;
+        private bool _isBroken;
 
         //Constructors of the box.
 
@@ -25,6 +26,7 @@ namespace GME1011A4
             _texture = texture;
             _position = position;
             _speed = 400f;
+            _isBroken = false;
         }
 
         //Mutator to respawn the box.
@@ -34,7 +36,7 @@ namespace GME1011A4
         }
 
         //Mutator for collision with the player. Modified later depending on each type of box.
-        public void Collides(Player player)
+        public virtual void Collides(Player player)
         {
 
         }
@@ -49,6 +51,7 @@ namespace GME1011A4
             if ( _position.Y > 1100)
             {
                 this.Respawn();
+                _isBroken |= true;
             }
 
             //Creating hitbox for the box.

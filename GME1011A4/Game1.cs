@@ -21,7 +21,7 @@ namespace GME1011A4
         private SpriteFont _font;
         private float _glitterRotation;
         private Random _RNG;
-        private int _numGlitter, _numBox, _boxRNG;
+        private int _numGlitter, _numBox, _boxRNG, _counter;
         private List<int> _glitterX;
         private List<int> _glitterY;
 
@@ -74,6 +74,9 @@ namespace GME1011A4
                     _boxes.Add(new metalBox(Content.Load<Texture2D>("Death_Box"), new Vector2(_RNG.Next(0, 981), -100)));
             }
 
+            //counter to change the amount of boxes later.
+            _counter = 0;
+
 
             base.Initialize();
         }
@@ -121,6 +124,20 @@ namespace GME1011A4
 
                     if (box.GetHitbox().Intersects(_player.GetHitbox()))
                         box.Collides(_player);
+                }
+                //Counter to change the amount of boxes on the list. FIXABLE
+                _counter++;
+                if (_counter == 180)
+                {
+                    _numBox = _RNG.Next(3, 6);
+                    _boxRNG = _RNG.Next(0, 3);
+
+                    if (_boxRNG == 2)
+                        _boxes.Add(new woodenBox(Content.Load<Texture2D>("Box"), new Vector2(_RNG.Next(0, 981), -100)));
+                    else
+                        _boxes.Add(new metalBox(Content.Load<Texture2D>("Death_Box"), new Vector2(_RNG.Next(0, 981), -100)));
+
+                    _counter = 0;
                 }
                 
             }
